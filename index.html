@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Gunboat</title>
+  <link rel=stylesheet href='style.css' type='text/css' />
+  <script src="http://www.google.com/jsapi?key=ABQIAAAA4f8pRNBT_o7wZoAgoU2cgBRSRUB8dNqQOOcgytqeTQCNJXNrcBSA8W9MWoNVShls-_SOOQHKrcRGhQ"></script>
+  <script type="text/javascript" src="math3d.js"></script>
+  <script type="text/javascript" src="keyboard-focus-hack.js"></script>
+  <script type="text/javascript" src="gunboat.js"></script>
+  <script type="text/javascript">
+google.load("earth", "1");
+google.load("maps", "2");
+
+var ge = null;
+var geocoder;
+var truck;
+
+function el(e) { return document.getElementById(e); }
+
+function Sample(description, url) {
+  this.description = description;
+  this.url = url;
+  return this;
+}
+
+var samples = [];
+
+function init() {
+  geocoder = new GClientGeocoder();
+
+  init3D();
+}
+
+function initCallback(object) {
+  ge = object;
+  ge.getWindow().setVisibility(true);
+  ge.getLayerRoot().enableLayerById(ge.LAYER_BUILDINGS, true);
+  ge.getOptions().setFlyToSpeed(ge.SPEED_TELEPORT);
+  
+  truck = new Truck();
+  
+  keyboardFocusHack(ge);
+}
+
+function failureCallback(err) {
+}
+
+function init3D() {
+  google.earth.createInstance("map3d", initCallback, failureCallback);
+}
+  </script>
+</head>
+<body onload='init()' onunload="GUnload()" onKeyDown="return keyDown(event);" onKeyUp="return keyUp(event);">
+<center>
+  <div id='map3d_container' >
+    <div id='map3d'></div>
+  </div>
+</center>
+</body>
+</html>
